@@ -4400,7 +4400,9 @@ var Moon = {
   }
 
 };
-function saveSVG(fname) {
+
+// userCallback is passed the blob from the svg. It's called when the SVG is ready.
+Celestial.saveSVG = function (userCallback) {
   var doc = d3.select("body").append("div").attr("id", "d3-celestial-svg").attr("style", "display: none"),
       svg = d3.select("#d3-celestial-svg").append("svg"), //.attr("style", "display: none"),
       m = Celestial.metrics(),
@@ -5032,23 +5034,18 @@ function saveSVG(fname) {
 
   q.await(function(error) {
     if (error) throw error;
-    var svg = d3.select("svg")
-      .attr("title", "D3-Celestial")
+    var svg = d3.select("#d3-celestial-svg > svg")
+      .attr("title", "star-map")
       .attr("version", 1.1)
       .attr("xmlns", "http://www.w3.org/2000/svg");
 
     var blob = new Blob([svg.node().outerHTML], {type:"image/svg+xml;charset=utf-8"});
-    
-    var a = d3.select("body").append("a").node(); 
-    a.download = fname || "d3-celestial.svg";
-    a.rel = "noopener";
-    a.href = URL.createObjectURL(blob);
-    a.click();
-    d3.select(a).remove();
+
     d3.select("#d3-celestial-svg").remove();
+    userCallback(blob);
   });
 
-}
+};
 
 var customSvgSymbols = d3.map({
   'ellipse': function(size, ratio) {
@@ -5730,6 +5727,8 @@ function queue(concurrency) {
   return new Queue(concurrency);
 }
 
+// Polyfill
+d3.queue = queue;
 exports.queue = queue;
 
 Object.defineProperty(exports, '__esModule', { value: true });

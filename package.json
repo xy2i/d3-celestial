@@ -1,13 +1,15 @@
 {
-  "name": "d3-celestial",
-  "version": "0.7.18",
+  "name": "d3-celestial-with-svg",
+  "version": "0.8",
   "description": "A star map with D3.js",
-  "main": "celestial.js",
+  "main": "celestial.min.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "d3": "^3.5.17"
+    "canvg": "^3.0.6",
+    "d3": "^3.5.17",
+    "jspdf-yworks": "^2.1.1"
   },
   "devDependencies": {
     "jsdom": "^15.2.1",
